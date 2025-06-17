@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Próximos Cumpleaños</title>
+  <style>
+    body { font-family: Arial; padding: 2em; background: #f9f9f9; }
+    h1 { color: #4CAF50; }
+    ul { padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <h1>🎂 Próximos Cumpleaños</h1>
+  <ul id="cumples"></ul>
+
+  <script>
+    const hoy = new Date();
+    const cumpleanios = [
+      { nombre: "Thomas Asvesta", fecha: "2025-10-23" },
+      { nombre: "Thiago Sánchez", fecha: "2010-07-07" },
+      { nombre: "Antonella Belen Calla", fecha: "2013-03-16" },
+      { nombre: "Celina Alonso", fecha: "2008-02-27" },
+      { nombre: "Agostina Villarreal", fecha: "2025-06-11" },
+      { nombre: "Isabella Balatti", fecha: "2012-02-25" },
+      { nombre: "Miraballes Baleato Isabella", fecha: "2013-07-12" },
+      { nombre: "Trinidad Romero Prudencio", fecha: "2012-10-30" },
+      { nombre: "Zina Romero Prudencio", fecha: "2010-12-24" },
+      { nombre: "Simón De Rosa", fecha: "2013-06-22" },
+      { nombre: "Lola Vargas", fecha: "2008-06-04" },
+      { nombre: "Bianca Travasino", fecha: "2008-05-02" },
+      { nombre: "Benjamin Morales", fecha: "2009-10-20" },
+      { nombre: "Juan Bautista Durand", fecha: "2008-09-03" },
+      { nombre: "Benja Salgado", fecha: "2013-02-21" },
+      { nombre: "Isabela Perfumo", fecha: "2011-01-07" },
+      { nombre: "Giuliano Bellavigna", fecha: "2009-03-20" },
+      { nombre: "Magui", fecha: "2025-11-22" },
+      { nombre: "Claudio Burrueco", fecha: "2025-07-19" },
+      { nombre: "Adrián Travasino", fecha: "2025-11-13" },
+      { nombre: "Fabiola", fecha: "2025-10-24" },
+      { nombre: "Nico", fecha: "2001-08-13" },
+      { nombre: "Micael", fecha: "2003-04-21" },
+      { nombre: "Maria Emilia Lombardi", fecha: "1982-10-27" },
+      { nombre: "Lucas Alberto De Rosa", fecha: "1986-05-23" }
+    ];
+
+    function calcularDias(fechaStr) {
+      const [anio, mes, dia] = fechaStr.split('-');
+      let proximo = new Date(hoy.getFullYear(), mes - 1, dia);
+      if (proximo < hoy) proximo.setFullYear(proximo.getFullYear() + 1);
+      const dif = Math.ceil((proximo - hoy) / (1000 * 60 * 60 * 24));
+      return { dias: dif, fecha: proximo.toLocaleDateString('es-AR', { day: 'numeric', month: 'long' }) };
+    }
+
+    const ordenados = cumpleanios.map(c => {
+      const r = calcularDias(c.fecha.replaceAll("/", "-"));
+      return { ...c, dias: r.dias, fechaFormateada: r.fecha };
+    }).sort((a, b) => a.dias - b.dias);
+
+    const ul = document.getElementById("cumples");
+    ordenados.slice(0, 5).forEach(c =>
+      ul.innerHTML += `<li><strong>${c.nombre}</strong> – ${c.fechaFormateada} (faltan ${c.dias} días)</li>`
+    );
+  </script>
+</body>
+</html>
